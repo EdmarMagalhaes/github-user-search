@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import ButtonGen from '../../core/components/Button';
+import ButtonGen from 'core/components/Button';
 import './styles.scss'
 
 
-const home = () => (
+const Home = () => (
   <div className="home-container">
     <div className="row home-content">
       <div className="col-6">
@@ -29,4 +29,4 @@ const home = () => (
 
 );
 
-export default home;
+export default Home;
