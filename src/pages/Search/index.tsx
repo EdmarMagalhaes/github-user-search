@@ -4,30 +4,29 @@ import { SearchResult } from 'core/types/SearchResult';
 import './styles.scss';
 import ImageLoader from './components/ImageLoader';
 import InfoLoader from './components/InfoLoaders';
-
-
-
-
+import dayjs from 'dayjs'
 
 const Search = () => {
     const [search, setSearch] = useState('');
     const [userData, setUserData] = useState<SearchResult>();
     const [isLoading, setIsLoading] = useState(false);
-
+    
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setIsLoading(true);
         fetch(`https://api.github.com/users/${search}`)
-            .then(response => response.json())
-            .then(userResponse => setUserData(userResponse))
-            .finally(() => {
+        .then(response => response.json())     
+        .then(userResponse => setUserData(userResponse))                                 
+        .finally(() => {
                 setIsLoading(false)
-            })
+         })
     }
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearch(event.target.value);
     }
+
+    const createdAt = dayjs(userData?.created_at).format("DD/MM/YYYY");
 
     return (
         <div className="container-page">
@@ -51,7 +50,7 @@ const Search = () => {
                     </span>
                 </form>
             </div>
-
+           
             {userData && (
                 <div className="container-result">
 
@@ -112,7 +111,7 @@ const Search = () => {
                                         <h6 className="text-span6"><strong>Localidade:</strong> &nbsp; {userData.location}</h6>
                                     </span>
                                     <span className="span7-position">
-                                        <h6 className="text-span7"><strong>Membro desde:</strong> &nbsp;  {userData.created_at}</h6>
+                                        <h6 className="text-span7"><strong>Membro desde:</strong> &nbsp;  {createdAt}</h6>
                                     </span>
 
                                 </div>

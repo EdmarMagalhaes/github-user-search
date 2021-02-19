@@ -11,7 +11,9 @@
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@types/react-router-dom": "^5.1.7",
+    "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
+    "dayjs": "^1.10.4",
     "node-sass": "^5.0.0",
     "react": "^17.0.1",
     "react-content-loader": "^6.0.1",
@@ -44,5 +46,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "react-toastify": "^7.0.3"
   }
 }
