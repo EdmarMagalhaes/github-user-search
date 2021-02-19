@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 import ButtonGen from 'core/components/Button';
 import { SearchResult } from 'core/types/SearchResult';
 import './styles.scss';
@@ -15,11 +16,19 @@ const Search = () => {
         event.preventDefault();
         setIsLoading(true);
         fetch(`https://api.github.com/users/${search}`)
-        .then(response => response.json())     
-        .then(userResponse => setUserData(userResponse))                                 
-        .finally(() => {
-                setIsLoading(false)
-         })
+            .then( response => {
+                if (!response.ok) {
+                    throw response
+                }
+                return response.json()
+            })
+            .then(userResponse => setUserData(userResponse))                                 
+            .catch(() => {
+                toast.error('erro ao pesquisar usuário!');
+            })
+            .finally(() => {
+                    setIsLoading(false)
+            })
     }
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
