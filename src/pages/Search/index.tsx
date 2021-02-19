@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 import ButtonGen from 'core/components/Button';
 import { SearchResult } from 'core/types/SearchResult';
 import './styles.scss';
@@ -10,16 +11,27 @@ const Search = () => {
     const [search, setSearch] = useState('');
     const [userData, setUserData] = useState<SearchResult>();
     const [isLoading, setIsLoading] = useState(false);
-    
+
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setIsLoading(true);
         fetch(`https://api.github.com/users/${search}`)
-        .then(response => response.json())     
-        .then(userResponse => setUserData(userResponse))                                 
-        .finally(() => {
+            .then(response => {
+                if (!response.ok) {
+                    throw response
+                }
+                return response.json()
+            })
+
+            .then(userResponse => setUserData(userResponse))
+
+            .catch(() => {
+                toast.error('Usuário não encontrado!')
+            })
+
+            .finally(() => {
                 setIsLoading(false)
-         })
+            })
     }
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,7 +62,7 @@ const Search = () => {
                     </span>
                 </form>
             </div>
-           
+
             {userData && (
                 <div className="container-result">
 
@@ -58,13 +70,13 @@ const Search = () => {
 
                         <div>
                             <span className="imageloader-position">
-                               <ImageLoader />
+                                <ImageLoader />
                             </span>
                             <span className="infoloader-position">
                                 <InfoLoader />
                             </span>
                         </div> : (
-                                                 
+
                             <div>
                                 <div>
                                     <img
@@ -119,7 +131,7 @@ const Search = () => {
                             </div>
                         )}
                 </div>
-                
+
             )}
 
         </div>
